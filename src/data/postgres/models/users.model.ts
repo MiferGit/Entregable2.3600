@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { bcryptAdapter } from "../../../config/bcrypt.adap";
 
 export enum Role {
     EMPLOYEE = 'EMPLOYEE',
@@ -46,16 +47,12 @@ export class Users extends BaseEntity {
         default: Status.AVAILABLE
     })
     status: Status;
+
+    @BeforeInsert()
+    async hashPassword(){
+        this.password = await bcryptAdapter.encrypt(this.password);
+    }
 }
 
-//DIAGRAMA DE RELACIONES
-// Table User {
-//     id int [pk]  // clave primaria, auto-incrementable
-//     name varchar(80)
-//     email varchar(80) [unique]
-//     password varchar(255)
-//     role varchar(50)
-//     status varchar(50)
-//   }
 
 

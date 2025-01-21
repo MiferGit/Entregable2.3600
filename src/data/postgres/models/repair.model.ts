@@ -19,6 +19,18 @@ export class Repair extends BaseEntity {
   date: Date;
 
 
+  @Column("varchar", {
+    nullable: false,
+  })
+  motorsNumber: string;
+
+
+  @Column("text", {
+    nullable: false,
+  })
+  description: string;
+
+
   @Column("enum", {
     // Este estatus nos ayudará a saber si está activo o eliminado
     enum: RepairStatus,

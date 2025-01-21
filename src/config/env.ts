@@ -9,4 +9,6 @@ export const envs = { //creamos un objeto envs
     DB_DATABASE: get('DATABASE').required().asString(), //creamos una variable DB_DATABASE que es un string
     DB_PORT: get('PORT_DATABASE').required().asPortNumber(), //creamos una variable DB_PORT que es un numero de puerto
     DB_HOST: get('HOST_DATABASE').required().asString(), //creamos una variable DB_HOST que es un string
+    JWT_SECRET: get('JWT_SECRET').required().asString(),
+    JWT_EXPIRES_IN: get('JWT_EXPIRES_IN').required().asString(),
 }
