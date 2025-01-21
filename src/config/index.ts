@@ -1,0 +1,1 @@
+export * from './env'; //exportamos el archivo env.ts
