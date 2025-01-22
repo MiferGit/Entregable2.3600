@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
 import { CreateUserDTO, CustomError, UpdateUserDTO } from "../../domain";
+import { error } from "console";
 // import { PostService } from "./services/post.service";
 // import { CreatePostDTO, CustomError, UpdatePostDTO } from "../../domain";
 
@@ -84,4 +85,15 @@ export class UserController {
       })
       .catch((error: unknown) => this.handleError(error, res));
   };
+
+
+  loginUser = (req: Request, res: Response) => {
+    const {email, password} = req.body;
+
+    this.userService
+    .login(email, password)
+    .then((data) => res.status(200).json(data))
+    .catch((error: any) => this.handleError(error, res))
+  }
+
 }

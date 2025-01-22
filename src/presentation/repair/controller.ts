@@ -28,7 +28,7 @@ export class RepairController {
         createRepair = (req: Request, res: Response) => {  // creamos metodo de CREARPOST
 
          const [error, createRepairDto] = CreateRepairDTO.create(req.body)  
-            if(error) return res.status(422).json({message: error})
+            if(error) return res.status(422).json({errors: error})
 
 
             this.repairService.createRepair(createRepairDto!) 

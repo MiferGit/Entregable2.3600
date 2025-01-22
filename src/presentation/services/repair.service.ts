@@ -44,6 +44,8 @@ export class RepairService {
     const repair = new Repair();
     repair.date = repairData.date;
     repair.userId = repairData.userId.trim();
+    repair.motorsNumber = repairData.motorsNumber;
+    repair.description = repairData.description;
 
     try {
         return await repair.save();

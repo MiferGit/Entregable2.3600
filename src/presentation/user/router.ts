@@ -26,6 +26,8 @@ export class UserRoutes {
 
         router.delete("/:id", userController.deleteUser);
 
+        router.post("/login", userController.loginUser)
+
         return router;
     }
 }

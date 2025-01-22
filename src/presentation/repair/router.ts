@@ -1,26 +1,27 @@
 import { Router } from "express";
 import { RepairController} from "./controller";
 import { RepairService } from "../services/repair.service";
+import { AuthMiddleware } from "../middlewares/auth.midleware";
 
 
 
 export class RepairRoutes {
-    static get routes(): Router {   //Cuando tenemos una clase y dentro un metodo estatic no es necesario hacer instancia osea ej: const appRoutes = new AppRoutes()
+    static get routes(): Router {   
         const router = Router();
 
 
-        const repairService = new RepairService();  //instanciamos la clase del archivo service PostService
-        const repairController = new RepairController(repairService); //instanciamos la clase del archivo controller PostController y hacemos la inyeccion como parametro postService
-  //*************************************************************************************************** */
-  //REALIZAMOS LAS PETICIONES DE LOS METODOS DE LOS CONTROLLERS
+        const repairService = new RepairService();  
+        const repairController = new RepairController(repairService);
   
-        router.get("/", repairController.findAllRepair); // el get es para obtener buscar y llamamo al metodo finAllPost
+        router.post("/", repairController.createRepair); 
 
-        router.post("/", repairController.createRepair); // el post es para crear y llamamos al metodo createPost
+        router.use(AuthMiddleware.protect) //Protector de rutas
+  
+        router.get("/", repairController.findAllRepair);  
 
-        router.get("/:id", repairController.findOneRepair);  //para resibir una cosas en especifico
+        router.get("/:id", repairController.findOneRepair);  
 
-        router.patch("/:id", repairController.updateRepair);  //para actualizar patch necesita :id
+        router.patch("/:id", repairController.updateRepair);  
 
         router.delete("/:id", repairController.deleteRepair);
 
