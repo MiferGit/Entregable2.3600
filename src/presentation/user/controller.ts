@@ -2,12 +2,11 @@ import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
 import { CreateUserDTO, CustomError, UpdateUserDTO } from "../../domain";
 import { error } from "console";
-// import { PostService } from "./services/post.service";
-// import { CreatePostDTO, CustomError, UpdatePostDTO } from "../../domain";
+
 
 export class UserController {
   constructor(
-    private readonly userService: UserService // inyectamos la dependencia de la clase PostService ´para la logica
+    private readonly userService: UserService // inyectamos la dependencia 
   ) {}
 
   private handleError = (error: unknown, res: Response) => {
@@ -20,7 +19,7 @@ export class UserController {
     return res.status(500).json({ message: "Internal Server Error" });
   };
 
-  //************CREAMOS LOS METODOS no son estaticos los instanciamos en erchivo de los postroutes ***************************************************************** */
+  //************CREAMOS LOS METODOS  *************************** */
   createUser = async (req: Request, res: Response) => {
     const [error, createUserDto] = CreateUserDTO.create(req.body);
     if (error) return res.status(422).json({ message: error });
@@ -29,12 +28,7 @@ export class UserController {
     .createUser(createUserDto!)
     .then((data)=> res.status(200).json(data))
     .catch((error: any)=> this.handleError(error, res))
-    // try {
-    //   const data = await this.userService.createUser(createUserDto!);
-    //   return res.status(201).json(data);
-    // } catch (error) {
-    //   return this.handleError(error, res);
-    // }
+   
   };
 
   //************************************************************ */
@@ -48,7 +42,7 @@ export class UserController {
       .catch((error: unknown) => this.handleError(error, res));
   };
 
-  //**************************************************************************************** */
+  //************************************************************ */
   findOneUser = (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -60,7 +54,7 @@ export class UserController {
       .catch((error: unknown) => this.handleError(error, res));
   };
 
-  //****************************************************************************************** */
+  //*********************************************************** */
   updateUser = (req: Request, res: Response) => {
     const { id } = req.params;
     const [error, updateUserDto] = UpdateUserDTO.create(req.body);
@@ -74,7 +68,7 @@ export class UserController {
       .catch((error: unknown) => this.handleError(error, res));
   };
 
-  //********************************************************************************************** */
+  //********************************************************** */
   deleteUser = (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -86,7 +80,7 @@ export class UserController {
       .catch((error: unknown) => this.handleError(error, res));
   };
 
-
+  //********************************************************** */
   loginUser = (req: Request, res: Response) => {
     const {email, password} = req.body;
 

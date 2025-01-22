@@ -23,7 +23,7 @@ export class AuthMiddleware {
       const payload = (await JwtAdapter.verifyToken(token)) as { id: string }; //id del Usuario
       if (!payload)
         return res.status(401).json({
-          message: "Token invalido, porfavor inicie sesion nuevamente",
+          message: "Token invalido, porfavor inicie sesion nuevamente ☠️",
         });
 
       const user = await Users.findOne({
@@ -31,7 +31,7 @@ export class AuthMiddleware {
       });
       if (!user)
         return res.status(401).json({
-          message: "User no encontrado, porfavor inicie sesion nuevamente",
+          message: "User no encontrado, porfavor inicie sesion nuevamente ☠️",
         });
 
       req.body.sessionUser = user;
@@ -39,14 +39,14 @@ export class AuthMiddleware {
       next();
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Error en el server interno" });
+      return res.status(500).json({ message: "Error en el server interno ☠️" });
     }
   }
 
   static restricTo = (...roles: Role[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
       if (!roles.includes(req.body.sessionUser.role)) {
-        return res.status(401).json({ message: "No estas autorizado ☠️" });
+        return res.status(403).json({ message: "No estas autorizado ☠️" });
       }
 
       next();
