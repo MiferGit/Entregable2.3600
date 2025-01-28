@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
 import { CreateUserDTO, CustomError, UpdateUserDTO } from "../../domain";
 import { error } from "console";
+import { protectAccountOwner } from "../../config/validate-owner";
 
 
 export class UserController {
@@ -57,6 +58,12 @@ export class UserController {
   //*********************************************************** */
   updateUser = (req: Request, res: Response) => {
     const { id } = req.params;
+    const sessionUserId = req.body.sessionUser.id;
+
+    if(!protectAccountOwner(id, sessionUserId)) {
+      return res.status(401).json({message: "No eres el propietario de esta cuenta 🚧"})
+    }
+
     const [error, updateUserDto] = UpdateUserDTO.create(req.body);
     if (error) return res.status(422).json({ message: error });
 
@@ -71,11 +78,16 @@ export class UserController {
   //********************************************************** */
   deleteUser = (req: Request, res: Response) => {
     const { id } = req.params;
+    const sessionUserId = req.body.sessionUser.id;
+
+    if(!protectAccountOwner(id, sessionUserId)) {
+      return res.status(401).json({message: "No eres el propietario de esta cuenta 🚧"})
+    }
 
     this.userService
       .deleteUser(id)
-      .then(() => {
-        return res.status(204).json(null);
+      .then((data) => {
+        return res.status(204).json(data);
       })
       .catch((error: unknown) => this.handleError(error, res));
   };

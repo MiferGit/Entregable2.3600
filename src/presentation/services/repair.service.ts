@@ -1,3 +1,4 @@
+import { In } from "typeorm";
 import { Repair, RepairStatus } from "../../data";
 import { CreateRepairDTO, CustomError, UpdateRepairDTO } from "../../domain";
 
@@ -8,8 +9,20 @@ export class RepairService {
     try {
       return await Repair.find({
         where: {
-          status: RepairStatus.PENDING,
+          status: In([RepairStatus.PENDING, RepairStatus.COMPLETED])
         },
+
+        relations: {
+          user: true,
+        },
+        select: {
+          user: {
+            id: true,
+            name: true,
+            email:  true,
+            role: true
+          }
+        }
       });
     } catch (error) {
       throw CustomError.internalServer(

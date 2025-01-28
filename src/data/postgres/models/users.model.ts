@@ -3,9 +3,11 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { bcryptAdapter } from "../../../config/bcrypt.adap";
+import { Repair } from "./repair.model";
 
 export enum Role {
   EMPLOYEE = "EMPLOYEE",
@@ -51,6 +53,10 @@ export class Users extends BaseEntity {
     default: Status.AVAILABLE,
   })
   status: Status;
+
+
+  @OneToMany(() => Repair, (repair) => repair.user)
+  repairs: Repair[];
 
   @BeforeInsert()
   async hashPassword() {
